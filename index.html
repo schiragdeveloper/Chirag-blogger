@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chirag Sathwara's Blog & APK Hub</title>
+    <meta name="description" content="Welcome to Chirag Sathwara's personal blog and APK download hub. Get the latest tech insights and app releases.">
+    <meta name="author" content="Chirag Sathwara">
+    <meta name="theme-color" content="#0D6EFD"> <!-- PWA: Theme color -->
+    <link rel="manifest" href="manifest.json"> <!-- PWA: Manifest file -->
+    <link rel="apple-touch-icon" href="icon-192x192.png"> <!-- PWA: iOS icon -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* --- Reset & Base Styles --- */
+        :root {
+            --primary-color: #0D6EFD; /* Bootstrap Blue */
+            --primary-hover: #0B5ED7;
+            --secondary-color: #6c757d; /* Bootstrap Gray */
+            --success-color: #198754;  /* Bootstrap Green */
+            --danger-color: #dc3545;   /* Bootstrap Red */
+            --warning-color: #ffc107;  /* Bootstrap Yellow */
+            --light-bg: #f8f9fa;
+            --dark-bg: #1c1c1e; /* Slightly lighter dark for less harshness */
+            --card-bg-light: #ffffff;
+            --card-bg-dark: #2a2a2c;
+            --text-light: #212529;
+            --text-dark: #e9ecef;
+            --border-light: #dee2e6;
+            --border-dark: #495057;
+            --shadow-sm: 0 .125rem .25rem rgba(0,0,0,.075);
+            --shadow-md: 0 .5rem 1rem rgba(0,0,0,.1);
+            --shadow-lg: 0 1rem 3rem rgba(0,0,0,.125);
+            --border-radius: 0.5rem; /* Slightly larger radius */
+            --transition-speed: 0.25s;
+            --font-family-sans-serif: 'Poppins', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-family-sans-serif);
+            margin: 0;
+            padding-top: 80px; /* For fixed navbar */
+            background-color: var(--light-bg);
+            color: var(--text-light);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        body.dark-mode {
+            --light-bg: var(--dark-bg);
+            --card-bg-light: var(--card-bg-dark);
+            --text-light: var(--text-dark);
+            --border-light: var(--border-dark);
+            --primary-color: #3D8BFD; /* Brighter blue for dark mode */
+            --primary-hover: #2A7AFE;
+            --success-color: #20A962;
+        }
+
+        /* --- Utility Classes --- */
+        .container { max-width: 1140px; margin: 0 auto; padding: 30px 20px; }
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+        .mb-1 { margin-bottom: 0.5rem; } .mb-2 { margin-bottom: 1rem; } .mb-3 { margin-bottom: 1.5rem; } .mb-4 { margin-bottom: 2rem; }
+        .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mt-3 { margin-top: 1.5rem; } .mt-4 { margin-top: 2rem; }
+
+        /* --- Animations --- */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+
+        /* --- Navbar --- */
+        .navbar {
+            background-color: var(--card-bg-light);
+            padding: 0; /* Let container handle padding */
+            position: fixed; top: 0; left: 0; width: 100%;
+            z-index: 1000; box-shadow: var(--shadow-md);
+            transition: background-color var(--transition-speed) ease;
+        }
+        .navbar .container {
+            display: flex; justify-content: space-between; align-items: center;
+            height: 80px; padding-top:0; padding-bottom:0;
+        }
+        .navbar-brand {
+            font-size: 2em; font-weight: 700; color: var(--primary-color) !important;
+            text-decoration: none;
+        }
+        .nav-links-container { display: flex; align-items: center; }
+        .nav-links { display: flex; align-items: center; list-style: none; margin:0; padding:0; }
+        .nav-links li { margin-left: 25px; }
+        .nav-links a, .nav-links button {
+            color: var(--text-light); text-decoration: none; font-weight: 500;
+            padding: 10px 15px; border-radius: var(--border-radius);
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+            position: relative;
+        }
+        .nav-links a::after, .nav-links button::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            display: block; margin-top: 5px; right: 0;
+            background: var(--primary-color);
+            transition: width 0.3s ease; -webkit-transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after, .nav-links button:hover::after,
+        .nav-links a.active::after, .nav-links button.active::after {
+            width: 100%; left: 0;
+        }
+        .nav-links a:hover, .nav-links button:hover,
+        .nav-links a.active, .nav-links button.active {
+            color: var(--primary-color);
+        }
+        .nav-links button { background: none; border: none; font-family: inherit; font-size: inherit; cursor: pointer; }
+
+        .nav-actions { display:flex; align-items:center; }
+        .theme-toggle-btn, .mobile-menu-btn {
+            background: transparent; border: none; font-size: 1.5em; cursor: pointer;
+            color: var(--text-light); margin-left: 20px; padding: 8px;
+            border-radius: 50%; width: 40px; height: 40px; display:flex; align-items:center; justify-content:center;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+        }
+        .theme-toggle-btn:hover, .mobile-menu-btn:hover { background-color: var(--light-bg); }
+        body.dark-mode .theme-toggle-btn:hover, body.dark-mode .mobile-menu-btn:hover { background-color: var(--dark-bg); }
+        .mobile-menu-btn { display: none; }
+
+
+        /* --- Section Titles --- */
+        .section-title {
+            font-size: 2.5em; font-weight: 700; color: var(--text-light);
+            text-align: center; margin-bottom: 40px; position: relative;
+        }
+        .section-title::after {
+            content: ''; display: block; width: 80px; height: 4px;
+            background: var(--primary-color); margin: 10px auto 0;
+            border-radius: 2px;
+        }
+        .empty-state-message {
+            text-align:center; font-size: 1.1em; color: var(--secondary-color);
+            padding: 20px; background-color: var(--card-bg-light);
+            border-radius: var(--border-radius); box-shadow: var(--shadow-sm);
+        }
+
+        /* --- Cards (Blog & APK) --- */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .card {
+            background-color: var(--card-bg-light); border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md); overflow: hidden;
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            display: flex; flex-direction: column; border: 1px solid var(--border-light);
+        }
+        .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+        .card-thumbnail { width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid var(--border-light); }
+        .card-thumbnail-video {
+            width: 100%; height: 220px; background-color: #111; display:flex;
+            align-items:center; justify-content:center; color:white; font-size:1.5em;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .card-thumbnail-video i { font-size: 2em; opacity: 0.7;}
+        .card-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title {
+            font-size: 1.6em; font-weight: 600; margin: 0 0 12px;
+            color: var(--primary-color); line-height: 1.3;
+        }
+        .card-meta { font-size: 0.85em; color: var(--secondary-color); margin-bottom: 15px; display:flex; align-items:center; flex-wrap:wrap;}
+        .card-meta span { margin-right: 12px; display:inline-flex; align-items:center; }
+        .card-meta i { margin-right: 5px; }
+        .card-description {
+            font-size: 0.95em; color: var(--text-light); opacity:0.85; margin-bottom: 20px;
+            flex-grow: 1; line-height: 1.6; overflow: hidden; text-overflow: ellipsis;
+            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+        }
+        .card-button {
+            background-color: var(--primary-color); color: white; border: none; padding: 12px 22px;
+            border-radius: var(--border-radius); cursor: pointer; text-decoration: none;
+            font-weight: 500; font-size: 0.95em;
+            transition: background-color var(--transition-speed) ease, transform 0.2s ease;
+            align-self: flex-start; display: inline-flex; align-items: center;
+        }
+        .card-button i { margin-right: 8px; }
+        .card-button:hover { background-color: var(--primary-hover); transform: translateY(-2px); }
+        .apk-card .card-button { background-color: var(--success-color); }
+        .apk-card .card-button:hover { background-color: var(--success-hover, #146C43)); } /* Define success-hover if needed */
+        .apk-card .card-title i { margin-right: 10px; }
+
+        /* --- Blog Post Details Page --- */
+        #blog-details-page article {
+            background-color: var(--card-bg-light); padding: 30px;
+            border-radius: var(--border-radius); box-shadow: var(--shadow-md);
+        }
+        .post-header { margin-bottom: 30px; }
+        .post-title { font-size: 2.8em; font-weight: 700; margin-bottom: 15px; color: var(--primary-color); line-height: 1.2; }
+        .post-meta { font-size: 0.95em; color: var(--secondary-color); margin-bottom: 25px; display:flex; align-items:center; flex-wrap: wrap; }
+        .post-meta span { margin-right: 20px; display:inline-flex; align-items:center; }
+        .post-meta i { margin-right: 8px; color: var(--primary-color); opacity: 0.8; }
+        .post-featured-media { width: 100%; max-height: 500px; object-fit: cover; border-radius: var(--border-radius); margin-bottom: 30px; box-shadow: var(--shadow-sm); }
+        .post-featured-media-video { width: 100%; aspect-ratio: 16 / 9; border-radius: var(--border-radius); margin-bottom: 30px; box-shadow: var(--shadow-sm); }
+        .post-content { font-size: 1.1em; line-height: 1.8; color: var(--text-light); opacity:0.9; }
+        .post-content p { margin-bottom: 1.2em; }
+        .post-content img { max-width: 100%; height: auto; border-radius: var(--border-radius); margin: 20px 0; box-shadow: var(--shadow-sm); }
+        .post-content h2, .post-content h3 { color: var(--primary-color); margin-top: 1.5em; margin-bottom: 0.5em;}
+
+        /* Post Actions: Share, Like */
+        .post-actions { margin-top: 35px; padding-top: 25px; border-top: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .share-buttons button, .like-button {
+            background: transparent; border: 1px solid var(--border-light); color: var(--secondary-color);
+            padding: 10px 18px; border-radius: var(--border-radius); cursor: pointer;
+            font-size: 0.95em; transition: all var(--transition-speed) ease; display: inline-flex; align-items: center; font-weight:500;
+        }
+        .share-buttons button i { margin-right: 8px; font-size: 1.1em; }
+        .share-buttons button:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+        .share-buttons button.whatsapp:hover { border-color: #25D366; color: #25D366; background-color: rgba(37, 211, 102, 0.1); }
+        .share-buttons button.facebook:hover { border-color: #1877F2; color: #1877F2; background-color: rgba(24, 119, 242, 0.1); }
+        .share-buttons button.twitter:hover { border-color: #1DA1F2; color: #1DA1F2; background-color: rgba(29, 161, 242, 0.1); }
+
+        .like-button { color: var(--danger-color); border-color: var(--danger-color); }
+        .like-button:hover { background-color: rgba(220, 53, 69, 0.1); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+        .like-button.liked { background-color: var(--danger-color); color: white; }
+        .like-button.liked .like-icon { animation: pulse 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .like-icon { margin-right: 8px; font-size: 1.1em; }
+
+        /* Comments Section */
+        .comments-section { margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--border-light); }
+        .comments-section > h3 { font-size: 1.8em; margin-bottom: 25px; font-weight:600; }
+        .comment {
+            background-color: var(--light-bg); padding: 20px; border-radius: var(--border-radius);
+            margin-bottom: 20px; border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);
+        }
+        .comment-header { display: flex; align-items: center; margin-bottom: 8px; }
+        .comment-author-avatar {
+            width: 40px; height: 40px; border-radius: 50%; background-color: var(--primary-color);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-weight: 600; font-size: 1.2em; margin-right: 12px; text-transform: uppercase;
+        }
+        .comment-author { font-weight: 600; color: var(--primary-color); font-size: 1.05em; }
+        .comment-date { font-size: 0.8em; color: var(--secondary-color); margin-left: auto; }
+        .comment-text { font-size: 0.95em; line-height: 1.7; color: var(--text-light); opacity:0.9; }
+
+        #comment-form { margin-top: 25px; }
+        #comment-form h4 { font-size: 1.3em; margin-bottom: 15px; font-weight:600; }
+        #comment-form textarea, #comment-form input[type="text"] {
+            width: calc(100% - 24px); padding: 12px; border-radius: var(--border-radius);
+            border: 1px solid var(--border-light); margin-bottom: 15px; font-family: inherit; font-size: 1em;
+            background-color: var(--card-bg-light); color: var(--text-light);
+            transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        }
+        #comment-form textarea:focus, #comment-form input[type="text"]:focus {
+            border-color: var(--primary-color); box-shadow: 0 0 0 .25rem rgba(var(--bs-primary-rgb, 13, 110, 253),.25); /* Bootstrap focus */
+            outline: 0;
+        }
+        #comment-form button {
+            background-color: var(--primary-color); color: white; border: none; padding: 12px 25px;
+            border-radius: var(--border-radius); cursor: pointer; font-weight: 500; font-size: 1em;
+            transition: background-color var(--transition-speed) ease, transform 0.2s ease;
+        }
+        #comment-form button:hover { background-color: var(--primary-hover); transform: translateY(-2px); }
+
+        /* --- Admin Panel --- */
+        #admin-panel-page { background-color: var(--light-bg); } /* Full page background */
+        .admin-section {
+            background-color: var(--card-bg-light); padding: 30px;
+            border-radius: var(--border-radius); box-shadow: var(--shadow-md); margin-bottom: 40px;
+        }
+        .admin-section h3 {
+            font-size: 1.8em; margin-bottom: 25px; color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color); padding-bottom: 12px; font-weight: 600;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
+        .form-group input[type="text"],
+        .form-group input[type="url"],
+        .form-group textarea,
+        .form-group select {
+            width: calc(100% - 26px); padding: 12px; border: 1px solid var(--border-light);
+            border-radius: var(--border-radius); font-size: 1em; font-family: inherit;
+            background-color: var(--light-bg); color: var(--text-light);
+            transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--primary-color); outline:0;
+            box-shadow: 0 0 0 .2rem rgba(var(--bs-primary-rgb,13,110,253),.25);
+        }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .form-group small { display:block; margin-top: 5px; font-size:0.85em; color: var(--secondary-color); }
+
+        .admin-button-group { display:flex; gap:10px; }
+        .admin-button {
+            background-color: var(--primary-color); color: white; border: none; padding: 10px 20px;
+            font-size: 1em; font-weight: 500; border-radius: var(--border-radius); cursor: pointer;
+            transition: background-color var(--transition-speed) ease, transform 0.2s ease;
+            display: inline-flex; align-items: center;
+        }
+        .admin-button i { margin-right: 8px; }
+        .admin-button:hover { background-color: var(--primary-hover); transform: translateY(-2px); }
+        .admin-button.delete { background-color: var(--danger-color); }
+        .admin-button.delete:hover { background-color: #B02A37; }
+        .admin-button.edit { background-color: var(--warning-color); color: var(--text-light);}
+        .admin-button.edit:hover { background-color: #D9A006; }
+        .admin-button.clear { background-color: var(--secondary-color); }
+        .admin-button.clear:hover { background-color: #5A6268; }
+
+        .admin-list table { width: 100%; border-collapse: collapse; margin-top: 25px; font-size:0.95em; }
+        .admin-list th, .admin-list td {
+            border: 1px solid var(--border-light); padding: 12px 15px; text-align: left;
+        }
+        .admin-list th { background-color: var(--light-bg); font-weight: 600; }
+        .admin-list .actions button { margin-right: 8px; padding: 6px 10px; font-size:0.9em; }
+
+        /* --- Contact Us & About Us Page --- */
+        .static-page-content {
+            background-color: var(--card-bg-light); padding: 30px;
+            border-radius: var(--border-radius); box-shadow: var(--shadow-md);
+            line-height: 1.8; font-size: 1.05em;
+        }
+        .static-page-content h2 { font-size: 1.8em; color: var(--primary-color); margin-bottom: 20px; font-weight:600; }
+        .static-page-content p { margin-bottom: 15px; opacity:0.9; }
+        .static-page-content a { color: var(--primary-color); text-decoration: none; font-weight:500; }
+        .static-page-content a:hover { text-decoration: underline; }
+        .contact-info { list-style: none; padding-left: 0; }
+        .contact-info li { margin-bottom: 15px; display:flex; align-items:center; }
+        .contact-info i { margin-right: 12px; color: var(--primary-color); width: 22px; text-align: center; font-size: 1.2em;}
+
+        /* --- Footer --- */
+        .footer {
+            background: var(--dark-bg); /* Always dark for contrast */
+            color: #adb5bd; /* Lighter gray for footer text */
+            padding: 40px 0; text-align: center; margin-top: 50px;
+        }
+        .footer p { margin: 8px 0; font-size: 0.9em; }
+        .footer .social-links a {
+            color: #adb5bd; margin: 0 12px; font-size: 1.6em;
+            transition: color var(--transition-speed) ease, transform 0.2s ease; display:inline-block;
+        }
+        .footer .social-links a:hover { color: var(--primary-color); transform: translateY(-3px); }
+        .footer strong { color: #ced4da; font-weight:500; }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--light-bg); display: flex;
+            justify-content: center; align-items: center; z-index: 9999;
+            opacity: 1; transition: opacity 0.5s ease-out;
+        }
+        .loader {
+            border: 5px solid #e9ecef; border-top: 5px solid var(--primary-color);
+            border-radius: 50%; width: 50px; height: 50px; animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* PWA Install Banner */
+        #install-banner {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--primary-color); color: white; padding: 15px 20px;
+            text-align: center; box-shadow: 0 -3px 8px rgba(0,0,0,0.15); z-index: 1001;
+            font-size: 0.95em;
+        }
+        #install-banner p { margin: 0 0 10px 0; }
+        #install-banner button {
+            padding: 8px 15px; margin: 0 8px; border-radius: var(--border-radius);
+            border: 1px solid white; background-color: transparent; color: white; cursor: pointer; font-weight:500;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        #install-banner button:hover { background-color: rgba(255,255,255,0.2); }
+        #install-banner button#install-app-action-btn { background-color: white; color: var(--primary-color); }
+        #install-banner button#install-app-action-btn:hover { background-color: #f0f0f0; }
+
+        /* Responsive Design */
+        @media (max-width: 992px) { /* Tablet and below */
+            .nav-links {
+                display: none; flex-direction: column; position: absolute;
+                top: 80px; /* Height of navbar */
+                left: 0; width: 100%;
+                background: var(--card-bg-light);
+                box-shadow: var(--shadow-md); padding: 15px 0;
+                border-top: 1px solid var(--border-light);
+            }
+            .nav-links.active { display: flex; }
+            .nav-links li { margin: 10px 0; width:100%; text-align:center; }
+            .nav-links a, .nav-links button { display:block; width: calc(100% - 40px); margin: 5px auto; padding:12px; }
+            .mobile-menu-btn { display: flex; }
+        }
+        @media (max-width: 768px) { /* Mobile */
+            body { padding-top: 70px; }
+            .navbar .container { height: 70px; }
+            .nav-links { top: 70px; }
+            .navbar-brand { font-size: 1.6em; }
+            .section-title { font-size: 2em; }
+            .post-title { font-size: 2.2em; }
+            .post-featured-media-video { aspect-ratio: 16 / 10; }
+            .post-actions { flex-direction: column; align-items: stretch; }
+            .share-buttons, .like-button { width: 100%; margin: 8px 0; justify-content: center; }
+            .card-grid { grid-template-columns: 1fr; gap: 20px; }
+            .admin-list table, .admin-list thead, .admin-list tbody, .admin-list th, .admin-list td, .admin-list tr {
+                display: block;
+            }
+            .admin-list thead tr { position: absolute; top: -9999px; left: -9999px; }
+            .admin-list tr { border: 1px solid var(--border-light); border-radius:var(--border-radius); margin-bottom:10px; padding:10px; background:var(--light-bg); }
+            .admin-list td {
+                border: none; border-bottom: 1px solid var(--border-light);
+                position: relative; padding-left: 50%; white-space:normal; text-align:right;
+            }
+            .admin-list td:before {
+                position: absolute; top: 12px; left: 12px; width: 45%;
+                padding-right: 10px; white-space: nowrap; text-align:left; font-weight:bold;
+            }
+            .admin-list td:nth-of-type(1):before { content: "Title:"; }
+            .admin-list td:nth-of-type(2):before { content: "Date/Version:"; }
+            .admin-list td:nth-of-type(3):before { content: "Actions:"; }
+            .admin-list td.actions { display:flex; justify-content:flex-end; gap:5px; padding-top:15px; }
+        }
+
+        /* For JS to get :root vars easily */
+        :root { --bs-primary-rgb: 13,110,253; } /* Example, update if primary color changes */
+        body.dark-mode { --bs-primary-rgb: 61,139,253; }
+    </style>
+</head>
+<body>
+
+    <div class="loading-screen" id="loadingScreen"><div class="loader"></div></div>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="#home" class="navbar-brand nav-route">CS Blog</a>
+            <div class="nav-links-container">
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home" class="nav-route">Home</a></li>
+                    <li><a href="#apk-downloads" class="nav-route">APK Downloads</a></li>
+                    <li><a href="#about" class="nav-route">About Me</a></li>
+                    <li><a href="#contact" class="nav-route">Contact</a></li>
+                    <li><button id="adminLoginBtn" class="nav-route" data-route="admin-panel">Admin Panel</button></li>
+                </ul>
+            </div>
+            <div class="nav-actions">
+                <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" title="Menu"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="mainContent">
+        <!-- Pages will be rendered here by JavaScript -->
+    </main>
+
+    <footer class="footer">
+        <div class="social-links mb-3">
+            <a href="https://github.com/chiragdeveloper" target="_blank" title="GitHub" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/chirag-sathwara-672aa2227" target="_blank" title="LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://twitter.com/ChiragSath8873" target="_blank" title="Twitter" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/sathwara_chirag_1001" target="_blank" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p>© <span id="currentYear"></span> <strong>Chirag Sathwara</strong>. All Rights Reserved.</p>
+        <p>Designed & Developed by <strong>Chirag Sathwara</strong></p>
+        <button id="downloadAppBtnPWA" class="hidden" style="background:var(--primary-color); color:white; border:none; padding:10px 15px; border-radius:var(--border-radius); margin-top:15px; cursor:pointer; font-weight:500;">
+            <i class="fas fa-download"></i> Install Web App
+        </button>
+    </footer>
+
+    <div id="install-banner">
+        <p>Get Chirag's Blog & APK Hub app for a better experience!</p>
+        <button id="install-app-action-btn"><i class="fas fa-rocket"></i> Install App</button>
+        <button id="dismiss-install-banner-btn">Later</button>
+    </div>
+    
+    <!-- Templates for pages -->
+    <template id="home-page-template">
+        <section class="container fade-in">
+            <h1 class="section-title">Latest Blog Posts</h1>
+            <div class="card-grid" id="homeBlogGrid">
+                <!-- Blog cards will be injected here -->
+            </div>
+            <div id="homeBlogEmpty" class="empty-state-message hidden">No blog posts yet. Chirag is working on it! <i class="fas fa-pencil-alt"></i></div>
+            <div class="text-center mt-4" id="viewAllBlogsBtnContainer" ></div>
+
+            <h1 class="section-title mt-4">Latest APKs</h1>
+            <div class="card-grid" id="homeApkGrid">
+                <!-- APK cards will be injected here -->
+            </div>
+            <div id="homeApkEmpty" class="empty-state-message hidden">No APKs available yet. <i class="fab fa-android"></i></div>
+            <div class="text-center mt-4" id="viewAllApksBtnContainer"></div>
+        </section>
+    </template>
+
+    <template id="all-blogs-page-template">
+         <section class="container fade-in">
+            <h1 class="section-title">All Blog Posts</h1>
+            <div class="card-grid" id="allBlogsGrid">
+                <!-- All Blog cards will be injected here -->
+            </div>
+             <div id="allBlogEmpty" class="empty-state-message hidden">No blog posts yet. Chirag is working on it! <i class="fas fa-pencil-alt"></i></div>
+        </section>
+    </template>
+
+
+    <template id="blog-details-page-template">
+        <section class="container fade-in">
+            <!-- Content dynamically loaded -->
+        </section>
+    </template>
+
+    <template id="apk-downloads-page-template">
+        <section class="container fade-in">
+            <h1 class="section-title">Download APKs</h1>
+            <div class="card-grid" id="allApksGrid">
+                <!-- All APK cards will be injected here -->
+            </div>
+            <div id="allApkEmpty" class="empty-state-message hidden">No APKs available yet. <i class="fab fa-android"></i></div>
+        </section>
+    </template>
+
+    <template id="about-page-template">
+        <section class="container fade-in">
+            <h1 class="section-title">About Me</h1>
+            <div class="static-page-content">
+                <h2>Developer: Chirag Sathwara</h2>
+                <p>Hello! I'm <strong>Chirag Sathwara</strong>, a passionate web and mobile app developer. I enjoy creating modern, responsive, and user-friendly digital experiences.</p>
+                <p>This website serves as my personal blog where I share insights on technology, development, and various other topics that interest me. It also hosts some of the APKs I've developed or find useful.</p>
+                <p>My goal is to continuously learn and apply new technologies to build innovative solutions. I specialize in front-end development using HTML, CSS, and JavaScript, and I'm also exploring various frameworks and backend technologies.</p>
+                <p>I believe in the power of open source and sharing knowledge. You can find my projects on <a href="https://github.com/chiragdeveloper" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+                <p>Feel free to explore the blog posts, download available APKs, and get in touch if you have any questions or collaboration ideas!</p>
+                <p>Thank you for visiting! <i class="fas fa-smile"></i></p>
+            </div>
+        </section>
+    </template>
+
+    <template id="contact-page-template">
+         <section class="container fade-in">
+            <h1 class="section-title">Contact Me</h1>
+            <div class="static-page-content">
+                <p>If you'd like to get in touch, you can reach me via the following methods:</p>
+                <ul class="contact-info">
+                    <li><i class="fas fa-envelope"></i> Gmail: <a href="mailto:vlogverse076@gmail.com">vlogverse076@gmail.com</a></li>
+                    <li><i class="fas fa-phone-alt"></i> Mobile: <a href="tel:+918780553194">+91 8780553194</a></li>
+                    <li><i class="fab fa-linkedin"></i> LinkedIn: <a href="https://www.linkedin.com/in/chirag-sathwara-672aa2227" target="_blank" rel="noopener noreferrer">chirag-sathwara-672aa2227</a></li>
+                </ul>
+                <p>I'll do my best to respond as soon as possible.</p>
+            </div>
+        </section>
+    </template>
+
+    <template id="admin-panel-page-template">
+        <section class="container fade-in" id="admin-panel-container">
+            <h1 class="section-title">Admin Panel</h1>
+            <div id="admin-content">
+                 <!-- Admin forms and lists will be injected here -->
+            </div>
+        </section>
+    </template>
+
+
+    <script>
+    // --- Constants & Config ---
+    // (Same as before, but ensure they are used correctly)
+    // ... Script content from previous response, with fixes and improvements ...
+    // The JavaScript code will be extensive. For brevity here, I'm indicating
+    // that the robust JS from the previous good example should be used,
+    // but adapted to work with the new HTML structure (e.g., templates)
+    // and UI elements.
+
+    // --- START OF THE UPDATED JAVASCRIPT ---
+
+    const ADMIN_NAME = "Chirag Sathwara";
+    const ADMIN_PASSWORD = "chiragadmin"; // IMPORTANT: Change for actual use!
+    const APP_TITLE_BASE = "Chirag Sathwara's Blog & APK Hub";
+    const MAX_HOME_ITEMS = 3; // Number of blogs/APKs to show on homepage before "View All"
+
+    const STORAGE_KEYS = {
+        blogs: 'cs_blogs_data_v2', // Increment version if data structure changes significantly
+        apks: 'cs_apks_data_v2',
+        likes: 'cs_likes_data_v2',
+        theme: 'cs_theme_pref_v2',
+        adminSess: 'cs_admin_session_v2'
+    };
+
+    let blogs = [];
+    let apks = [];
+    let currentTheme = 'light';
+    let isAdminLoggedIn = false;
+    let currentBlogId = null;
+    let currentApkId = null;
+    let deferredInstallPrompt = null;
+
+    const DOMElements = {
+        body: document.body,
+        mainContent: document.getElementById('mainContent'),
+        loadingScreen: document.getElementById('loadingScreen'),
+        navLinksContainer: document.getElementById('navLinks'),
+        mobileMenuBtn: document.getElementById('mobileMenuBtn'),
+        themeToggleBtn: document.getElementById('themeToggleBtn'),
+        adminLoginBtn: document.getElementById('adminLoginBtn'),
+        currentYearEl: document.getElementById('currentYear'),
+        downloadAppBtnPWA: document.getElementById('downloadAppBtnPWA'),
+        installBanner: document.getElementById('install-banner'),
+        installAppActionBtn: document.getElementById('install-app-action-btn'),
+        dismissInstallBannerBtn: document.getElementById('dismiss-install-banner-btn'),
+    };
+
+    // --- LocalStorage Functions ---
+    function loadFromStorage(key, defaultValue = []) {
+        try {
+            const data = localStorage.getItem(key);
+            return data ? JSON.parse(data) : defaultValue;
+        } catch (e) { console.error(`Error loading ${key}:`, e); return defaultValue; }
+    }
+
+    function saveToStorage(key, data) {
+        try { localStorage.setItem(key, JSON.stringify(data)); }
+        catch (e) { console.error(`Error saving ${key}:`, e); }
+    }
+
+    // --- Theme ---
+    function applyTheme(theme) {
+        DOMElements.body.classList.toggle('dark-mode', theme === 'dark');
+        DOMElements.themeToggleBtn.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        currentTheme = theme;
+        saveToStorage(STORAGE_KEYS.theme, theme);
+        // Update --bs-primary-rgb for Bootstrap focus outline compatibility
+        const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
+        // Basic hex to rgb for bs variable
+        if (primaryColor.startsWith('#')) {
+            const r = parseInt(primaryColor.slice(1, 3), 16);
+            const g = parseInt(primaryColor.slice(3, 5), 16);
+            const b = parseInt(primaryColor.slice(5, 7), 16);
+            document.documentElement.style.setProperty('--bs-primary-rgb', `${r},${g},${b}`);
+        }
+    }
+    function toggleTheme() { applyTheme(currentTheme === 'light' ? 'dark' : 'light'); }
+
+
+    // --- PWA Install ---
+    window.addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+        DOMElements.installBanner.style.display = 'block';
+        DOMElements.downloadAppBtnPWA.classList.remove('hidden');
+    });
+    async function triggerPWAInstall() {
+        if (deferredInstallPrompt) {
+            deferredInstallPrompt.prompt();
+            const { outcome } = await deferredInstallPrompt.userChoice;
+            if (outcome === 'accepted') { console.log('PWA installation accepted'); }
+            deferredInstallPrompt = null;
+            DOMElements.installBanner.style.display = 'none';
+            DOMElements.downloadAppBtnPWA.classList.add('hidden');
+        } else {
+            alert("PWA already installed or install prompt not available.");
+        }
+    }
+
+    // --- Admin ---
+    function checkAdminSession() {
+        isAdminLoggedIn = loadFromStorage(STORAGE_KEYS.adminSess, false);
+        DOMElements.adminLoginBtn.textContent = isAdminLoggedIn ? 'Logout Admin' : 'Admin Panel';
+        if(isAdminLoggedIn) DOMElements.adminLoginBtn.classList.add('active'); else DOMElements.adminLoginBtn.classList.remove('active');
+
+    }
+    function handleAdminLogin() {
+        if (isAdminLoggedIn) {
+            isAdminLoggedIn = false; saveToStorage(STORAGE_KEYS.adminSess, false);
+            DOMElements.adminLoginBtn.textContent = 'Admin Panel';
+            DOMElements.adminLoginBtn.classList.remove('active');
+            navigateTo('home'); alert('Admin logged out.');
+            return;
+        }
+        const password = prompt("Enter Admin Password:");
+        if (password === ADMIN_PASSWORD) {
+            isAdminLoggedIn = true; saveToStorage(STORAGE_KEYS.adminSess, true);
+            DOMElements.adminLoginBtn.textContent = 'Logout Admin';
+            DOMElements.adminLoginBtn.classList.add('active');
+            alert('Admin login successful!'); navigateTo('admin-panel');
+        } else if (password !== null) { alert('Incorrect password.'); }
+    }
+
+
+    // --- Navigation & Page Rendering ---
+    function renderPage(pageId, param) {
+        let templateId = `${pageId}-page-template`;
+        const template = document.getElementById(templateId);
+        if (!template) {
+            console.error(`Template not found: ${templateId}`);
+            templateId = 'home-page-template'; // Fallback
+        }
+        DOMElements.mainContent.innerHTML = document.getElementById(templateId).innerHTML;
+
+        // Call specific render functions after template is in DOM
+        if (pageId === 'home') renderHomePageContent();
+        else if (pageId === 'all-blogs') renderAllBlogsPageContent();
+        else if (pageId === 'blogDetails' && param) renderBlogDetailsPageContent(param);
+        else if (pageId === 'apkDownloads') renderApkDownloadsPageContent();
+        else if (pageId === 'admin-panel' && isAdminLoggedIn) renderAdminPanelContent();
+        // Static pages (about, contact) are handled by templates directly.
+
+        updateActiveNavLink(pageId);
+        updateDocumentTitle(pageId, param);
+        window.scrollTo(0, 0);
+    }
+
+    function navigateTo(path) {
+        const [pageKey, param] = path.split('/');
+        if (pageKey === 'admin-panel' && !isAdminLoggedIn) {
+            alert("Please login as admin first.");
+            handleAdminLogin(); // This will navigate if successful
+            return;
+        }
+        renderPage(pageKey, param);
+        location.hash = path; // Set hash after rendering
+    }
+
+    function handleHashChange() {
+        const path = location.hash.slice(1) || 'home';
+        const [pageKey, param] = path.split('/');
+        renderPage(pageKey, param);
+    }
+
+    function updateActiveNavLink(currentPageId) {
+        document.querySelectorAll('.nav-route').forEach(link => {
+            const route = link.getAttribute('href')?.substring(1) || link.dataset.route;
+            if (route === currentPageId) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+        DOMElements.navLinksContainer.classList.remove('active');
+        DOMElements.mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+
+    function updateDocumentTitle(pageKey, param) {
+        let title = APP_TITLE_BASE;
+        const pageName = pageKey.charAt(0).toUpperCase() + pageKey.slice(1).replace(/-/g, ' ');
+        if (pageKey === 'blogDetails' && param) {
+            const blog = blogs.find(b => b.id === param);
+            title = blog ? `${blog.title} - ${APP_TITLE_BASE}` : `Blog Post - ${APP_TITLE_BASE}`;
+        } else if (pageKey !== 'home') {
+            title = `${pageName} - ${APP_TITLE_BASE}`;
+        }
+        document.title = title;
+    }
+
+    // --- Utility Functions ---
+    function generateId() { return 'id-' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5); }
+    function formatDate(dateString) {
+        if (!dateString) return 'N/A';
+        const options = { year: 'numeric', month: 'long', day: 'numeric' }; // Shorter date
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+    function sanitizeHTML(str) {
+        if (!str) return '';
+        const temp = document.createElement('div');
+        temp.textContent = str;
+        return temp.innerHTML;
+    }
+    function getAuthorInitial(authorName) {
+        if (!authorName) return '?';
+        return authorName.charAt(0).toUpperCase();
+    }
+
+    // --- Content Rendering Functions ---
+    function renderHomePageContent() {
+        const homeBlogGrid = document.getElementById('homeBlogGrid');
+        const homeApkGrid = document.getElementById('homeApkGrid');
+        const homeBlogEmpty = document.getElementById('homeBlogEmpty');
+        const homeApkEmpty = document.getElementById('homeApkEmpty');
+        const viewAllBlogsBtnContainer = document.getElementById('viewAllBlogsBtnContainer');
+        const viewAllApksBtnContainer = document.getElementById('viewAllApksBtnContainer');
+
+        const latestBlogs = blogs.slice(0, MAX_HOME_ITEMS);
+        const latestApks = apks.slice(0, MAX_HOME_ITEMS);
+
+        homeBlogGrid.innerHTML = latestBlogs.map(renderBlogCard).join('');
+        homeApkGrid.innerHTML = latestApks.map(renderApkCard).join('');
+
+        homeBlogEmpty.classList.toggle('hidden', latestBlogs.length > 0);
+        homeApkEmpty.classList.toggle('hidden', latestApks.length > 0);
+
+        viewAllBlogsBtnContainer.innerHTML = blogs.length > MAX_HOME_ITEMS ? `<button onclick="navigateTo('all-blogs')" class="card-button"><i class="fas fa-newspaper"></i> View All Blogs</button>` : '';
+        viewAllApksBtnContainer.innerHTML = apks.length > MAX_HOME_ITEMS ? `<button onclick="navigateTo('apk-downloads')" class="card-button apk-card"><i class="fab fa-android"></i> View All APKs</button>` : '';
+    }
+
+    function renderAllBlogsPageContent() {
+        const allBlogsGrid = document.getElementById('allBlogsGrid');
+        const allBlogEmpty = document.getElementById('allBlogEmpty');
+        allBlogsGrid.innerHTML = blogs.map(renderBlogCard).join('');
+        allBlogEmpty.classList.toggle('hidden', blogs.length > 0);
+    }
+
+    function renderApkDownloadsPageContent() {
+        const allApksGrid = document.getElementById('allApksGrid');
+        const allApkEmpty = document.getElementById('allApkEmpty');
+        allApksGrid.innerHTML = apks.map(renderApkCard).join('');
+        allApkEmpty.classList.toggle('hidden', apks.length > 0);
+    }
+
+    function renderBlogCard(blog) {
+        let mediaHTML = `<div class="card-thumbnail-video" style="background-color: var(--secondary-color);"><i class="fas fa-image"></i></div>`; // Default placeholder
+        if (blog.featuredMediaUrl) {
+            if (blog.featuredMediaType === 'video' || blog.featuredMediaUrl.includes('youtube.com') || blog.featuredMediaUrl.includes('youtu.be')) {
+                mediaHTML = `<div class="card-thumbnail-video"><i class="fas fa-play-circle"></i></div>`;
+            } else {
+                mediaHTML = `<img src="${sanitizeHTML(blog.featuredMediaUrl)}" alt="${sanitizeHTML(blog.title)}" class="card-thumbnail" loading="lazy">`;
+            }
+        }
+        const shortDesc = blog.description.replace(/<[^>]*>?/gm, '').substring(0, 120) + '...';
+
+        return `
+            <article class="card">
+                ${mediaHTML}
+                <div class="card-content">
+                    <h3 class="card-title">${sanitizeHTML(blog.title)}</h3>
+                    <p class="card-meta">
+                        <span><i class="fas fa-user"></i> ${ADMIN_NAME}</span>
+                        <span><i class="fas fa-calendar-alt"></i> ${formatDate(blog.date)}</span>
+                        <span><i class="fas fa-eye"></i> ${blog.views || 0}</span>
+                    </p>
+                    <p class="card-description">${shortDesc}</p>
+                    <button onclick="navigateTo('blogDetails/${blog.id}')" class="card-button"><i class="fas fa-book-open"></i> Read More</button>
+                </div>
+            </article>
+        `;
+    }
+
+    function renderApkCard(apk) {
+        return `
+            <article class="card apk-card">
+                <div class="card-thumbnail-video" style="background-color:var(--success-color);"><i class="fab fa-android"></i></div>
+                <div class="card-content">
+                    <h3 class="card-title"><i class="fas fa-mobile-alt"></i> ${sanitizeHTML(apk.title)}</h3>
+                    <p class="card-meta">
+                        <span><i class="fas fa-tag"></i> Version: ${sanitizeHTML(apk.version)}</span>
+                        <span><i class="fas fa-calendar-check"></i> ${formatDate(apk.uploadDate)}</span>
+                    </p>
+                    <p class="card-description">${sanitizeHTML(apk.description.substring(0,100))}...</p>
+                    <a href="${sanitizeHTML(apk.fileUrl)}" target="_blank" rel="noopener noreferrer" download class="card-button apk-card">
+                        <i class="fas fa-download"></i> Download APK
+                    </a>
+                </div>
+            </article>
+        `;
+    }
+
+    function renderBlogDetailsPageContent(blogId) {
+        currentBlogId = blogId; // Set for comments/likes
+        const blog = blogs.find(b => b.id === blogId);
+        const container = DOMElements.mainContent.querySelector('.container');
+
+        if (!blog) {
+            container.innerHTML = `<p class="text-center empty-state-message">Blog post not found. <i class="fas fa-exclamation-circle"></i></p>`;
+            return;
+        }
+
+        blog.views = (blog.views || 0) + 1;
+        saveToStorage(STORAGE_KEYS.blogs, blogs);
+
+        let mediaHTML = '';
+        if (blog.featuredMediaUrl) {
+            if (blog.featuredMediaType === 'video' || blog.featuredMediaUrl.includes('youtube.com') || blog.featuredMediaUrl.includes('youtu.be')) {
+                const videoIdMatch = blog.featuredMediaUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                const videoId = videoIdMatch ? videoIdMatch[1] : null;
+                if (videoId) {
+                     mediaHTML = `<iframe class="post-featured-media-video" src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+                } else {
+                    mediaHTML = `<video controls class="post-featured-media-video" src="${sanitizeHTML(blog.featuredMediaUrl)}"></video>`;
+                }
+            } else {
+                mediaHTML = `<img src="${sanitizeHTML(blog.featuredMediaUrl)}" alt="${sanitizeHTML(blog.title)}" class="post-featured-media" loading="lazy">`;
+            }
+        }
+
+        const likesData = loadFromStorage(STORAGE_KEYS.likes, {});
+        const isLiked = likesData[blog.id] && likesData[blog.id].userLiked;
+
+        container.innerHTML = `
+            <article>
+                <header class="post-header">
+                    <h1 class="post-title">${sanitizeHTML(blog.title)}</h1>
+                    <p class="post-meta">
+                        <span><i class="fas fa-user-edit"></i> ${ADMIN_NAME}</span>
+                        <span><i class="fas fa-calendar-alt"></i> ${formatDate(blog.date)}</span>
+                        <span><i class="fas fa-eye"></i> Views: ${blog.views || 0}</span>
+                    </p>
+                </header>
+                ${mediaHTML}
+                <div class="post-content">${blog.description}</div> {/* Assuming description contains HTML */}
+                
+                <div class="post-actions">
+                    <div class="share-buttons">
+                        <button class="whatsapp" onclick="shareSocial('whatsapp', '${blog.id}')" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                        <button class="facebook" onclick="shareSocial('facebook', '${blog.id}')" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+                        <button class="twitter" onclick="shareSocial('twitter', '${blog.id}')" aria-label="Share on Twitter"><i class="fab fa-twitter"></i> Twitter</button>
+                    </div>
+                    <button id="likeBtn-${blog.id}" class="like-button ${isLiked ? 'liked' : ''}" onclick="toggleLike('${blog.id}')">
+                        <i class="fas fa-heart like-icon"></i> <span id="likeCount-${blog.id}">${blog.likes || 0}</span> Likes
+                    </button>
+                </div>
+            </article>
+            <section class="comments-section">
+                <h3>Comments (<span id="commentCount-${blog.id}">${(blog.comments || []).length}</span>)</h3>
+                <div id="commentsList-${blog.id}">
+                    ${renderCommentsList(blog.comments || [])}
+                </div>
+                <form id="commentForm-${blog.id}" class="mt-3" onsubmit="submitComment(event, '${blog.id}')">
+                    <h4>Leave a Comment <i class="fas fa-comment-dots"></i></h4>
+                    <div class="form-group">
+                        <label for="commentAuthor-${blog.id}">Your Name (Optional):</label>
+                        <input type="text" id="commentAuthor-${blog.id}" placeholder="Anonymous">
+                    </div>
+                    <div class="form-group">
+                        <label for="commentText-${blog.id}">Comment:</label>
+                        <textarea id="commentText-${blog.id}" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="card-button"><i class="fas fa-paper-plane"></i> Post Comment</button>
+                </form>
+            </section>
+        `;
+        updateDocumentTitle('blogDetails', blogId);
+    }
+    function renderCommentsList(comments) {
+        if (!comments || comments.length === 0) return '<p class="empty-state-message" style="font-size:0.9em; padding:10px;">No comments yet. Be the first!</p>';
+        return comments.map(c => `
+            <div class="comment">
+                <div class="comment-header">
+                    <div class="comment-author-avatar">${getAuthorInitial(c.author)}</div>
+                    <div>
+                        <p class="comment-author">${sanitizeHTML(c.author)}</p>
+                        <p class="comment-date"><small>${formatDate(c.date)}</small></p>
+                    </div>
+                </div>
+                <p class="comment-text">${sanitizeHTML(c.text)}</p>
+            </div>
+        `).join('');
+    }
+
+    // --- Admin Panel Content & Forms ---
+    function renderAdminPanelContent() {
+        const adminContentDiv = document.getElementById('admin-content');
+        if (!adminContentDiv) return;
+
+        adminContentDiv.innerHTML = `
+            <div class="admin-section">
+                <h3><i class="fas fa-newspaper"></i> Manage Blog Posts</h3>
+                <form id="blogForm" onsubmit="handleBlogFormSubmit(event)">
+                    <input type="hidden" id="blogIdInput">
+                    <div class="form-group">
+                        <label for="blogTitleInput">Title:</label>
+                        <input type="text" id="blogTitleInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="blogMediaUrlInput">Featured Image/Video URL:</label>
+                        <input type="url" id="blogMediaUrlInput" placeholder="https://example.com/image.jpg or YouTube URL">
+                    </div>
+                    <div class="form-group">
+                        <label for="blogMediaTypeInput">Media Type:</label>
+                        <select id="blogMediaTypeInput">
+                            <option value="image">Image</option>
+                            <option value="video">Video</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="blogDescriptionInput">Content (Supports Basic HTML):</label>
+                        <textarea id="blogDescriptionInput" rows="10" required></textarea>
+                        <small>Allowed: <p>, <br>, <strong>, <em>, <ul>, <ol>, <li>, <a href>, <img src>, <h2>, <h3></small>
+                    </div>
+                    <div class="admin-button-group">
+                        <button type="submit" class="admin-button" id="blogSubmitBtn"><i class="fas fa-plus-circle"></i> Add Blog Post</button>
+                        <button type="button" class="admin-button clear" onclick="clearBlogForm()"><i class="fas fa-eraser"></i> Clear</button>
+                    </div>
+                </form>
+                <div class="admin-list mt-4">
+                    <h4>Existing Blog Posts (<span id="adminBlogCount">${blogs.length}</span>)</h4>
+                    <table id="adminBlogsTable">
+                        <thead><tr><th>Title</th><th>Date</th><th>Actions</th></tr></thead>
+                        <tbody>${renderAdminBlogRows()}</tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="admin-section">
+                <h3><i class="fab fa-android"></i> Manage APK Links</h3>
+                <form id="apkForm" onsubmit="handleApkFormSubmit(event)">
+                    <input type="hidden" id="apkIdInput">
+                    <div class="form-group">
+                        <label for="apkTitleInput">APK Title:</label>
+                        <input type="text" id="apkTitleInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="apkVersionInput">Version (e.g., 1.0.0):</label>
+                        <input type="text" id="apkVersionInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="apkDescriptionInput">Short Description:</label>
+                        <textarea id="apkDescriptionInput" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="apkFileUrlInput">APK File URL (Direct Download Link):</label>
+                        <input type="url" id="apkFileUrlInput" placeholder="https://example.com/your-app.apk" required>
+                        <small><strong>Crucial:</strong> Host your .apk file (e.g., on GitHub Releases, Dropbox direct link, etc.) and paste the direct download URL here. This site does not host APK files.</small>
+                    </div>
+                    <div class="admin-button-group">
+                        <button type="submit" class="admin-button" id="apkSubmitBtn"><i class="fas fa-plus-circle"></i> Add APK Link</button>
+                        <button type="button" class="admin-button clear" onclick="clearApkForm()"><i class="fas fa-eraser"></i> Clear</button>
+                    </div>
+                </form>
+                <div class="admin-list mt-4">
+                    <h4>Linked APKs (<span id="adminApkCount">${apks.length}</span>)</h4>
+                    <table id="adminApksTable">
+                         <thead><tr><th>Title</th><th>Version</th><th>Actions</th></tr></thead>
+                        <tbody>${renderAdminApkRows()}</tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderAdminBlogRows() {
+        return blogs.map(blog => `
+            <tr data-id="${blog.id}">
+                <td>${sanitizeHTML(blog.title.substring(0,40))}${blog.title.length > 40 ? '...' : ''}</td>
+                <td>${formatDate(blog.date)}</td>
+                <td class="actions">
+                    <button class="admin-button edit" onclick="editBlog('${blog.id}')" aria-label="Edit Blog"><i class="fas fa-edit"></i></button>
+                    <button class="admin-button delete" onclick="deleteBlog('${blog.id}')" aria-label="Delete Blog"><i class="fas fa-trash-alt"></i></button>
+                </td>
+            </tr>
+        `).join('') || `<tr><td colspan="3" class="text-center">No blogs to manage.</td></tr>`;
+    }
+    function renderAdminApkRows() {
+         return apks.map(apk => `
+            <tr data-id="${apk.id}">
+                <td>${sanitizeHTML(apk.title)}</td>
+                <td>${sanitizeHTML(apk.version)}</td>
+                <td class="actions">
+                    <button class="admin-button edit" onclick="editApk('${apk.id}')" aria-label="Edit APK Link"><i class="fas fa-edit"></i></button>
+                    <button class="admin-button delete" onclick="deleteApk('${apk.id}')" aria-label="Delete APK Link"><i class="fas fa-trash-alt"></i></button>
+                </td>
+            </tr>
+        `).join('') || `<tr><td colspan="3" class="text-center">No APK links to manage.</td></tr>`;
+    }
+    
+    // --- FORM HANDLING & CRUD (Blogs) ---
+    function handleBlogFormSubmit(event) {
+        event.preventDefault();
+        const id = document.getElementById('blogIdInput').value;
+        const title = document.getElementById('blogTitleInput').value.trim();
+        const mediaUrl = document.getElementById('blogMediaUrlInput').value.trim();
+        const mediaType = document.getElementById('blogMediaTypeInput').value;
+        const description = document.getElementById('blogDescriptionInput').value; // Keep raw HTML
+
+        if (!title || !description) { alert("Title and Content are required."); return; }
+
+        if (id) {
+            const blogIndex = blogs.findIndex(b => b.id === id);
+            if (blogIndex > -1) {
+                blogs[blogIndex] = { ...blogs[blogIndex], title, featuredMediaUrl: mediaUrl, featuredMediaType: mediaType, description };
+                 alert('Blog post updated!');
+            }
+        } else {
+            blogs.unshift({ id: generateId(), title, featuredMediaUrl: mediaUrl, featuredMediaType: mediaType, description, author: ADMIN_NAME, date: new Date().toISOString(), likes: 0, comments: [], views: 0 });
+            alert('Blog post added!');
+        }
+        blogs.sort((a,b) => new Date(b.date) - new Date(a.date)); // Re-sort
+        saveToStorage(STORAGE_KEYS.blogs, blogs);
+        clearBlogForm();
+        document.getElementById('adminBlogsTable').querySelector('tbody').innerHTML = renderAdminBlogRows();
+        document.getElementById('adminBlogCount').textContent = blogs.length;
+    }
+    function clearBlogForm() {
+        document.getElementById('blogForm').reset();
+        document.getElementById('blogIdInput').value = '';
+        document.getElementById('blogSubmitBtn').innerHTML = '<i class="fas fa-plus-circle"></i> Add Blog Post';
+    }
+    function editBlog(blogId) {
+        const blog = blogs.find(b => b.id === blogId);
+        if (blog) {
+            document.getElementById('blogIdInput').value = blog.id;
+            document.getElementById('blogTitleInput').value = blog.title;
+            document.getElementById('blogMediaUrlInput').value = blog.featuredMediaUrl || '';
+            document.getElementById('blogMediaTypeInput').value = blog.featuredMediaType || 'image';
+            document.getElementById('blogDescriptionInput').value = blog.description;
+            document.getElementById('blogSubmitBtn').innerHTML = '<i class="fas fa-save"></i> Update Blog Post';
+            document.getElementById('blogTitleInput').focus();
+        }
+    }
+    function deleteBlog(blogId) {
+        if (confirm('Delete this blog post? This cannot be undone.')) {
+            blogs = blogs.filter(b => b.id !== blogId);
+            saveToStorage(STORAGE_KEYS.blogs, blogs);
+            document.getElementById('adminBlogsTable').querySelector('tbody').innerHTML = renderAdminBlogRows();
+            document.getElementById('adminBlogCount').textContent = blogs.length;
+            alert('Blog post deleted.');
+            if (document.getElementById('blogIdInput').value === blogId) clearBlogForm(); // Clear form if editing deleted item
+        }
+    }
+
+    // --- FORM HANDLING & CRUD (APKs) ---
+    function handleApkFormSubmit(event) {
+        event.preventDefault();
+        const id = document.getElementById('apkIdInput').value;
+        const title = document.getElementById('apkTitleInput').value.trim();
+        const version = document.getElementById('apkVersionInput').value.trim();
+        const description = document.getElementById('apkDescriptionInput').value.trim();
+        const fileUrl = document.getElementById('apkFileUrlInput').value.trim();
+
+        if (!title || !version || !fileUrl || !description) { alert("All APK fields are required."); return; }
+        try { new URL(fileUrl); } catch (_) { alert("Invalid APK File URL."); return; } // Basic URL validation
+
+        if (id) {
+            const apkIndex = apks.findIndex(a => a.id === id);
+            if (apkIndex > -1) {
+                apks[apkIndex] = { ...apks[apkIndex], title, version, description, fileUrl, author: ADMIN_NAME };
+                alert('APK link updated!');
+            }
+        } else {
+            apks.unshift({ id: generateId(), title, version, description, fileUrl, author: ADMIN_NAME, uploadDate: new Date().toISOString() });
+            alert('APK link added!');
+        }
+        apks.sort((a,b) => new Date(b.uploadDate) - new Date(a.uploadDate)); // Re-sort
+        saveToStorage(STORAGE_KEYS.apks, apks);
+        clearApkForm();
+        document.getElementById('adminApksTable').querySelector('tbody').innerHTML = renderAdminApkRows();
+        document.getElementById('adminApkCount').textContent = apks.length;
+    }
+    function clearApkForm() {
+        document.getElementById('apkForm').reset();
+        document.getElementById('apkIdInput').value = '';
+        document.getElementById('apkSubmitBtn').innerHTML = '<i class="fas fa-plus-circle"></i> Add APK Link';
+    }
+    function editApk(apkId) {
+        const apk = apks.find(a => a.id === apkId);
+        if (apk) {
+            document.getElementById('apkIdInput').value = apk.id;
+            document.getElementById('apkTitleInput').value = apk.title;
+            document.getElementById('apkVersionInput').value = apk.version;
+            document.getElementById('apkDescriptionInput').value = apk.description;
+            document.getElementById('apkFileUrlInput').value = apk.fileUrl;
+            document.getElementById('apkSubmitBtn').innerHTML = '<i class="fas fa-save"></i> Update APK Link';
+            document.getElementById('apkTitleInput').focus();
+        }
+    }
+    function deleteApk(apkId) {
+         if (confirm('Delete this APK link entry? (The actual file on its host will NOT be deleted)')) {
+            apks = apks.filter(a => a.id !== apkId);
+            saveToStorage(STORAGE_KEYS.apks, apks);
+            document.getElementById('adminApksTable').querySelector('tbody').innerHTML = renderAdminApkRows();
+            document.getElementById('adminApkCount').textContent = apks.length;
+            alert('APK link entry deleted.');
+            if (document.getElementById('apkIdInput').value === apkId) clearApkForm();
+        }
+    }
+    
+    // --- USER INTERACTIONS (Likes, Comments, Share) ---
+    function toggleLike(blogId) {
+        const blog = blogs.find(b => b.id === blogId);
+        if (!blog) return;
+
+        let likesData = loadFromStorage(STORAGE_KEYS.likes, {});
+        likesData[blogId] = likesData[blogId] || { userLiked: false }; // Count is stored in blog object
+
+        const likeButtonEl = document.getElementById(`likeBtn-${blogId}`);
+        const likeCountEl = document.getElementById(`likeCount-${blogId}`);
+
+        if (likesData[blogId].userLiked) {
+            blog.likes = Math.max(0, (blog.likes || 0) - 1);
+            likesData[blogId].userLiked = false;
+            likeButtonEl?.classList.remove('liked');
+        } else {
+            blog.likes = (blog.likes || 0) + 1;
+            likesData[blogId].userLiked = true;
+            likeButtonEl?.classList.add('liked');
+        }
+        
+        if(likeCountEl) likeCountEl.textContent = blog.likes;
+        saveToStorage(STORAGE_KEYS.blogs, blogs); // Save updated like count on blog
+        saveToStorage(STORAGE_KEYS.likes, likesData); // Save user's like status
+    }
+    function submitComment(event, blogId) {
+        event.preventDefault();
+        if (!currentBlogId || currentBlogId !== blogId) return; // Ensure context
+        const blog = blogs.find(b => b.id === blogId);
+        if (!blog) return;
+
+        const authorInput = document.getElementById(`commentAuthor-${blogId}`);
+        const textInput = document.getElementById(`commentText-${blogId}`);
+        const author = authorInput.value.trim() || "Anonymous";
+        const text = textInput.value.trim();
+
+        if (!text) { alert("Comment cannot be empty."); return; }
+
+        blog.comments = blog.comments || [];
+        blog.comments.unshift({ author, text, date: new Date().toISOString() });
+        saveToStorage(STORAGE_KEYS.blogs, blogs);
+
+        document.getElementById(`commentsList-${blogId}`).innerHTML = renderCommentsList(blog.comments);
+        document.getElementById(`commentCount-${blogId}`).textContent = blog.comments.length;
+        authorInput.value = ''; textInput.value = ''; // Clear form
+    }
+    function shareSocial(platform, blogId) {
+        const blog = blogs.find(b => b.id === blogId);
+        if (!blog) return;
+        const url = `${window.location.origin}${window.location.pathname}#blogDetails/${blog.id}`;
+        const title = encodeURIComponent(blog.title);
+        const shareUrls = {
+            whatsapp: `https://api.whatsapp.com/send?text=${title}%20${encodeURIComponent(url)}`,
+            facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}"e=${title}`,
+            twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${title}`
+        };
+        if (shareUrls[platform]) window.open(shareUrls[platform], '_blank', 'noopener,noreferrer');
+    }
+
+    // --- INITIALIZATION ---
+    function initApp() {
+        blogs = loadFromStorage(STORAGE_KEYS.blogs, [
+            // More detailed sample data
+            { id: generateId(), title: "My First Journey into Web Development", featuredMediaUrl: "https://picsum.photos/seed/techblog/800/450", featuredMediaType: "image", description: "<p>This is a tale of how I started my adventure in web development. It was challenging but incredibly rewarding.</p><p>I learned HTML, CSS, and JavaScript, building small projects and gradually increasing complexity. The feeling of creating something interactive from scratch is amazing!</p><h3>Key Takeaways:</h3><ul><li>Start with the basics.</li><li>Practice consistently.</li><li>Don't be afraid to break things.</li><li>Join developer communities.</li></ul><p>The journey continues!</p>", author: ADMIN_NAME, date: new Date(Date.now() - 86400000 * 5).toISOString(), likes: 28, comments: [{author: "Jane D.", text: "Inspiring story!", date: new Date().toISOString()}], views: 150 },
+            { id: generateId(), title: "Understanding Modern CSS Layouts", featuredMediaUrl: "https://www.youtube.com/watch?v=sQUB039e2kE", featuredMediaType: "video", description: "<p>CSS has evolved so much! Flexbox and Grid have revolutionized how we build layouts.</p><p>This post explores some common use cases and tips for mastering these powerful tools. No more float hacks!</p>", author: ADMIN_NAME, date: new Date(Date.now() - 86400000 * 2).toISOString(), likes: 42, comments: [], views: 210 }
+        ]).sort((a,b) => new Date(b.date) - new Date(a.date));
+        apks = loadFromStorage(STORAGE_KEYS.apks, [
+            { id: generateId(), title: "My Awesome Utility App", version: "1.2.0", description: "A handy utility app to make your daily tasks easier. Packed with features!", fileUrl: "#", author: ADMIN_NAME, uploadDate: new Date(Date.now() - 86400000 * 3).toISOString() },
+            { id: generateId(), title: "Simple Notes Taker", version: "0.9.5 Beta", description: "Quickly jot down notes on the go. Clean and minimalist.", fileUrl: "#", author: ADMIN_NAME, uploadDate: new Date(Date.now() - 86400000 * 1).toISOString() }
+        ]).sort((a,b) => new Date(b.uploadDate) - new Date(a.uploadDate));
+
+        applyTheme(loadFromStorage(STORAGE_KEYS.theme, 'light'));
+        checkAdminSession();
+        if (DOMElements.currentYearEl) DOMElements.currentYearEl.textContent = new Date().getFullYear();
+
+        handleHashChange();
+        window.addEventListener('hashchange', handleHashChange);
+
+        DOMElements.themeToggleBtn.addEventListener('click', toggleTheme);
+        DOMElements.mobileMenuBtn.addEventListener('click', () => {
+            DOMElements.navLinksContainer.classList.toggle('active');
+            DOMElements.mobileMenuBtn.innerHTML = DOMElements.navLinksContainer.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        DOMElements.adminLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent hash change if it's just for login prompt
+            handleAdminLogin();
+        });
+        
+        DOMElements.downloadAppBtnPWA.addEventListener('click', triggerPWAInstall);
+        DOMElements.installAppActionBtn.addEventListener('click', triggerPWAInstall);
+        DOMElements.dismissInstallBannerBtn.addEventListener('click', () => { DOMElements.installBanner.style.display = 'none'; });
+        
+        document.querySelectorAll('.nav-route').forEach(link => {
+            link.addEventListener('click', (e) => {
+                if(link.getAttribute('href') || link.dataset.route){
+                    if (link.id === 'adminLoginBtn' && !isAdminLoggedIn) return; // Let handleAdminLogin manage navigation
+                    e.preventDefault();
+                    navigateTo(link.getAttribute('href')?.substring(1) || link.dataset.route);
+                }
+            });
+        });
+
+        setTimeout(() => {
+            DOMElements.loadingScreen.style.opacity = '0';
+            setTimeout(() => DOMElements.loadingScreen.style.display = 'none', 500);
+        }, 200); // Faster fadeout for perceived performance
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registered.', reg))
+                    .catch(err => console.error('Service Worker registration failed:', err));
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
+
+    // --- END OF THE UPDATED JAVASCRIPT ---
+    </script>
+</body>
+</html>
